@@ -38,7 +38,6 @@ public class Logic {
 		loadInformationPets();
 		assignPetsToOwners();
 		assignOwnersToClub();
-		
 
 	}
 
@@ -116,6 +115,9 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * Method to assign pets to owner with random method
+	 */
 	public void assignPetsToOwners() {
 		for (int i = 0; i < listGenericPets.size(); i++) {
 			if (i < listGenericOwners.size()) {
@@ -125,24 +127,24 @@ public class Logic {
 				listGenericOwners.get(maxIndex).addPet(listGenericPets.get(i));
 			}
 		}
-
 	}
 
+	/**
+	 * Method to assign owners to club depends what kind of pets they have
+	 */
 	public void assignOwnersToClub() {
 		for (int i = 0; i < listGenericOwners.size(); i++) {
 			boolean check = true;
-			for (int j = 0; j < listGenericOwners.get(i).getListPets().size(); j++) {
-				while (check) {
-					int indexClub = getRandomIntNumber(0, listClubs.size()-1);
-					if (listClubs.get(indexClub).getListPetsAllowString()
-							.contains(listGenericOwners.get(i).getListPets().get(j).getType())) {
-						listClubs.get(indexClub).addOwner(listGenericOwners.get(i));
-						check = false;
-						break;
-					}
+			while (check) {
+				int indexClub = getRandomIntNumber(0, listClubs.size() - 1);
+				if (listClubs.get(indexClub).getListPetsAllowString()
+						.contains(listGenericOwners.get(i).getListPets().get(0).getType())) {
+					listClubs.get(indexClub).addOwner(listGenericOwners.get(i));
+					check = false;
 				}
 			}
 		}
+		
 		
 		for (int i = 0; i < listClubs.size(); i++) {
 			System.out.println(listClubs.get(i).getListOwners().size());
