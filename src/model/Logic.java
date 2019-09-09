@@ -5,24 +5,26 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
+import java.util.Random;
 import java.util.ArrayList;
 
 public class Logic {
 	ArrayList<Club> listClubs;
 	ArrayList<Owner> listGenericOwners;
 	ArrayList<Pet> listGenericPets;
-	File fileTxtClubs,fileCSVOwners,fileCSVPets;
-	BufferedReader brClubs,brOwners,brPets;
+	File fileTxtClubs, fileCSVOwners, fileCSVPets;
+	BufferedReader brClubs, brOwners, brPets;
 
 	public Logic() {
 		listClubs = new ArrayList<Club>();
-		listGenericOwners = new ArrayList<Owner>(); 
-		listGenericPets = new ArrayList<Pet>(); 
-		
+		listGenericOwners = new ArrayList<Owner>();
+		listGenericPets = new ArrayList<Pet>();
+
 		fileTxtClubs = new File("C:\\Users\\pipeg\\eclipse-workspace\\PetClub\\src\\dataInfo\\toImport\\clubs.txt");
 		fileCSVOwners = new File("C:\\Users\\pipeg\\eclipse-workspace\\PetClub\\src\\dataInfo\\toImport\\owner.csv");
 		fileCSVPets = new File("C:\\Users\\pipeg\\eclipse-workspace\\PetClub\\src\\dataInfo\\toImport\\pets.csv");
-		
+
 		try {
 			brClubs = new BufferedReader(new FileReader(fileTxtClubs));
 			brOwners = new BufferedReader(new FileReader(fileCSVOwners));
@@ -30,11 +32,14 @@ public class Logic {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		loadInformationClubsFromTXT();
 		loadInformationOwners();
 		loadInformationPets();
+		assignPetsToOwners();
+		assignOwnersToClub();
+		
+
 	}
 
 	/**
@@ -62,14 +67,15 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * Method to load the owners information from plain file.
+	 */
 	public void loadInformationOwners() {
 		String st;
-		
 		// ------------------------------
 		try {
 			while ((st = brOwners.readLine()) != null) {
-				System.out.println(st);
-				String [] arrayInfoOwner = st.split(",");
+				String[] arrayInfoOwner = st.split(",");
 				// -------------------
 				int id = Integer.parseInt(arrayInfoOwner[0]);
 				String firstName = arrayInfoOwner[1];
@@ -84,15 +90,16 @@ public class Logic {
 			e.printStackTrace();
 		}
 	}
-	
 
+	/**
+	 * Method to load the pets information from plain file.
+	 */
 	public void loadInformationPets() {
 		String st;
 		// ------------------------------
 		try {
 			while ((st = brPets.readLine()) != null) {
-				System.out.println(st);
-				String [] arrayInfoOwner = st.split(",");
+				String[] arrayInfoOwner = st.split(",");
 				// -------------------
 				int id = Integer.parseInt(arrayInfoOwner[0]);
 				String firstName = arrayInfoOwner[1];
@@ -101,15 +108,54 @@ public class Logic {
 				String typePetsPrefer = arrayInfoOwner[4];
 				// -------------------
 				listGenericPets.add(new Pet(id, firstName, lastName, birthdayString, typePetsPrefer));
-				
+
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void assignOwnersToClub() {
-		
+
+	public void assignPetsToOwners() {
+		for (int i = 0; i < listGenericPets.size(); i++) {
+			if (i < listGenericOwners.size()) {
+				listGenericOwners.get(i).addPet(listGenericPets.get(i));
+			} else {
+				int maxIndex = getRandomIntNumber(0, listGenericOwners.size() - 1);
+				listGenericOwners.get(maxIndex).addPet(listGenericPets.get(i));
+			}
+		}
+
 	}
+
+	public void assignOwnersToClub() {
+		for (int i = 0; i < listGenericOwners.size(); i++) {
+			boolean check = true;
+			for (int j = 0; j < listGenericOwners.get(i).getListPets().size(); j++) {
+				while (check) {
+					int indexClub = getRandomIntNumber(0, listClubs.size()-1);
+					if (listClubs.get(indexClub).getListPetsAllowString()
+							.contains(listGenericOwners.get(i).getListPets().get(j).getType())) {
+						listClubs.get(indexClub).addOwner(listGenericOwners.get(i));
+						check = false;
+						break;
+					}
+				}
+			}
+		}
+		
+		for (int i = 0; i < listClubs.size(); i++) {
+			System.out.println(listClubs.get(i).getListOwners().size());
+		}
+	}
+
+	private int getRandomIntNumber(int min, int max) {
+		if (min >= max) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
+	}
+
 }

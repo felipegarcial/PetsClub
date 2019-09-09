@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;  
 
 public class Club implements Serializable{
@@ -65,4 +66,26 @@ public class Club implements Serializable{
 	public void setAllowPetsType(String[] allowPetsType) {
 		this.allowPetsType = allowPetsType;
 	}
+	
+	public void addOwner(Owner owner) {
+		listOwners.add(owner);
+	}
+	
+	public String getListPetsAllowString() {
+		String stringAllowPetsType = Arrays.toString(allowPetsType);
+		stringAllowPetsType = stringAllowPetsType.substring(1, stringAllowPetsType.length() - 1);
+		stringAllowPetsType = stringAllowPetsType.trim();
+		stringAllowPetsType = stringAllowPetsType.replace(" ", "");
+		return stringAllowPetsType;
+		
+	}
+
+	public ArrayList<Owner> getListOwners() {
+		return listOwners;
+	}
+
+	public void setListOwners(ArrayList<Owner> listOwners) {
+		this.listOwners = listOwners;
+	}
+	
 }

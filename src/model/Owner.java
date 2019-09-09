@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Owner implements Serializable{
 	
 	private int id;
-	private String firstName,lastName;
-	private String typePetsPrefer;
+	private String firstName,lastName,typePetsPrefer;
 	private Date birthday;
 	private ArrayList <Pet> listPets;
 	
@@ -19,7 +19,7 @@ public class Owner implements Serializable{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.typePetsPrefer = typePetsPrefer;
-		
+		listPets = new ArrayList<Pet>();
 		try {
 			this.birthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthdayString);
 		} catch (ParseException e) {
@@ -27,6 +27,15 @@ public class Owner implements Serializable{
 		}
 	}
 
+	public Owner(int id,String firstName,String lastName,Date birthday,String typePetsPrefer) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.typePetsPrefer = typePetsPrefer;
+		this.birthday = birthday;
+		listPets = new ArrayList<Pet>();
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -71,7 +80,11 @@ public class Owner implements Serializable{
 		return listPets;
 	}
 
-	public void setListPets(ArrayList<Pet> listPets) {
-		this.listPets = listPets;
+	public void addPet(int id,String name, Date birthday,String gender,String type) {
+		listPets.add(new Pet(id,name,birthday,gender,type));
+	}
+	
+	public void addPet(Pet pet) {
+		listPets.add(pet);
 	}
 }

@@ -1,5 +1,6 @@
 1/Giant Ironweed/2016-04-17/horse,cow,dog,cat
-2/Ekoko/2018-10-22/dog,cat,hamster,bird
-3/Triploid Fern/2017-05-13/horse,cow
-4/Woolly Filmy Fern/2016-02-13/horse,cow,bird
-5/Erizo/2018-06-01/horse,cow,hamster,turtle 
+2/Ekoko/2018-10-22/hamster,bird,rabbit
+3/Triploid Fern/2017-05-13/horse,cow,rabbit,dog
+4/Woolly Filmy Fern/2016-02-13/horse,cow,rabbit
+5/Erizo/2018-06-01/horse,cow,hamster,turtle,cat 
+6/Home Pets/2017-06-01/dog,cat,hamster

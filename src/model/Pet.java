@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Pet {
+public class Pet implements Serializable{
 	private int id;
 	private String name,gender,type;
 	private Date birthday;
@@ -20,6 +21,15 @@ public class Pet {
 			e.printStackTrace();
 		}
 	}
+	
+	public Pet(int id,String name, Date birthday,String gender,String type) {
+		this.id = id;
+		this.name = name;
+		this.gender = gender;
+		this.type = type; 
+		this.birthday = birthday;
+	}
+	
 	public int getId() {
 		return id;
 	}
