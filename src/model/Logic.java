@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -15,7 +17,7 @@ public class Logic {
 	ArrayList<Owner> listGenericOwners;
 	ArrayList<Pet> listGenericPets;
 	File fileTxtClubs, fileCSVOwners, fileCSVPets;
-	BufferedReader brClubs, brOwners, brPets;
+	BufferedReader brClubs,brClubsExist, brOwners, brPets;
 
 	public Logic() {
 		listClubs = new ArrayList<Club>();
@@ -27,32 +29,63 @@ public class Logic {
 		fileCSVPets = new File("C:\\Users\\pipeg\\eclipse-workspace\\PetClub\\src\\dataInfo\\toImport\\pets.csv");
 
 		try {
+			brClubsExist = new BufferedReader(new FileReader(fileTxtClubs));
 			brClubs = new BufferedReader(new FileReader(fileTxtClubs));
 			brOwners = new BufferedReader(new FileReader(fileCSVOwners));
 			brPets = new BufferedReader(new FileReader(fileCSVPets));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		loadInformationClubsFromTXT();
-		loadInformationOwners();
-		loadInformationPets();
-		assignPetsToOwners();
-		assignOwnersToClub();
-		saveSerializationFileClubs();
+		
+		
+		if(checkSerializableFiles()) {
+			loadInformationClubsFromTXT();
+			loadInformationOwners();
+			loadInformationPets();
+			assignPetsToOwners();
+			assignOwnersToClub();
+			saveSerializationFileClubs();
+		}
 	}
 
 	private void saveSerializationFileClubs() {
-		try {
-			FileOutputStream fos = new FileOutputStream("./src/dataInfo/serializable/clubsInfo.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(listClubs);
-			oos.close();
-			fos.close();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
+		for (int i = 0; i < listClubs.size(); i++) {
+			String nameFile = listClubs.get(i).getName().replace(" ","-");
+			try {
+				FileOutputStream fos = new FileOutputStream("./src/dataInfo/serializable/"+nameFile+".dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				oos.writeObject(listClubs.get(i));
+				oos.close();
+				fos.close();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
 		}
 	}
+	
+	private boolean checkSerializableFiles() {
+		String allFilesExist = "";
+		String st;
+		String[] arrayText;
+		//-------------------
+		try {
+			while ((st = brClubsExist.readLine()) != null) {
+				// -------------------
+				arrayText = st.split("/");
+				String nameClubFile = arrayText[1];
+				// -------------------
+				nameClubFile = nameClubFile.replace(" ","-");
+				File f = new File("./src/dataInfo/serializable/"+nameClubFile+".dat");
+				boolean result = f.exists();
+				allFilesExist += allFilesExist+ result;
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return allFilesExist.contains("false");
+	};
 
 	/**
 	 * Method to load the clubs information from plain file.

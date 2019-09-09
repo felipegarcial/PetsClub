@@ -10,6 +10,8 @@ public class Pet implements Serializable{
 	private int id;
 	private String name,gender,type;
 	private Date birthday;
+	
+	
 	public Pet(int id,String name, String birthdayString,String gender,String type) {
 		this.id = id;
 		this.name = name;
