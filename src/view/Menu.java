@@ -2,11 +2,15 @@ package view;
 
 import java.util.Scanner;
 
+import model.Logic;
+
 public class Menu {
 	private Scanner inputOption;
+	private Logic logic; 
 	
 	public Menu() {
 		inputOption = new Scanner(System.in);
+		logic		= new Logic();
 	}
 	
 	public void selectOption() {
