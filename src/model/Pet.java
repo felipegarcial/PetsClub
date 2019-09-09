@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Pet implements Serializable{
+	private static final long serialVersionUID = -7484136538328769315L;
 	private int id;
 	private String name,gender,type;
 	private Date birthday;

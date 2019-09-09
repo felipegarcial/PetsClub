@@ -3,9 +3,10 @@ package model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Date;
+import java.io.ObjectOutputStream;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -38,7 +39,19 @@ public class Logic {
 		loadInformationPets();
 		assignPetsToOwners();
 		assignOwnersToClub();
+		saveSerializationFileClubs();
+	}
 
+	private void saveSerializationFileClubs() {
+		try {
+			FileOutputStream fos = new FileOutputStream("./src/dataInfo/serializable/clubsInfo.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(listClubs);
+			oos.close();
+			fos.close();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 	}
 
 	/**
@@ -144,11 +157,9 @@ public class Logic {
 				}
 			}
 		}
-		
-		
-		for (int i = 0; i < listClubs.size(); i++) {
+		/*for (int i = 0; i < listClubs.size(); i++) {
 			System.out.println(listClubs.get(i).getListOwners().size());
-		}
+		}*/
 	}
 
 	private int getRandomIntNumber(int min, int max) {
