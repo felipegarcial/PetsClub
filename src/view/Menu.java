@@ -23,6 +23,7 @@ public class Menu {
 			switch (optionMenu) {
 			case 1:
 					System.out.println("Entro 1");
+					createElementEntity();
 				break;
 			case 2:
 					System.out.println("Entro 2");
@@ -70,5 +71,12 @@ public class Menu {
 		System.out.println("5. Salir del programa");
 		int value = inputOption.nextInt();
 		return value;
+	}
+	
+	
+	private void createElementEntity() {
+		System.out.println("1. Crear un Club");
+		System.out.println("2. Crear un Duenio");
+		System.out.println("3. Crear una Mascota");
 	}
 }

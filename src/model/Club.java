@@ -5,9 +5,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;  
 
-public class Club implements Serializable{
+public class Club implements Serializable,Comparable<Club>{
 
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -79,7 +80,6 @@ public class Club implements Serializable{
 		stringAllowPetsType = stringAllowPetsType.trim();
 		stringAllowPetsType = stringAllowPetsType.replace(" ", "");
 		return stringAllowPetsType;
-		
 	}
 
 	public ArrayList<Owner> getListOwners() {
@@ -88,6 +88,17 @@ public class Club implements Serializable{
 
 	public void setListOwners(ArrayList<Owner> listOwners) {
 		this.listOwners = listOwners;
+	}
+
+	public int compareTo(Club club) {
+		return listOwners.size() - club.getListOwners().size();
+	}
+	
+	public void sortOwnersByPetsNumber() {
+		Collections.sort(listOwners);
+		for (Owner owner : listOwners) {
+			System.out.println(owner.getFirstName()+" "+owner.getLastName() + " " + "-- Number of pets:" + owner.getListPets().size());
+		}
 	}
 	
 }

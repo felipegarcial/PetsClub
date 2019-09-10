@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Owner implements Serializable{
+public class Owner implements Serializable, Comparable<Owner>{
 	
 	/**
 	 * 
@@ -89,5 +89,10 @@ public class Owner implements Serializable{
 		
 	public void addPet(Pet pet) {
 		listPets.add(pet);
+	}
+
+	@Override
+	public int compareTo(Owner owner) {
+		return listPets.size() - owner.getListPets().size();
 	}
 }
