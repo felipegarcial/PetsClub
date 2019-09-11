@@ -95,4 +95,18 @@ public class Owner implements Serializable, Comparable<Owner>{
 	public int compareTo(Owner owner) {
 		return listPets.size() - owner.getListPets().size();
 	}
+	
+	public boolean verifyIfPetExist(String namePet) {
+		boolean existPet = false;
+		for (int i = 0; i < listPets.size(); i++) {
+			if(namePet.equals(listPets.get(i).getName())){
+				existPet = true;
+				break;
+			}else {
+				System.out.println("La mascota ya existe en este usuario");
+				break;
+			}
+		}
+		return existPet;
+	}
 }

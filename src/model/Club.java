@@ -22,22 +22,13 @@ public class Club implements Serializable,Comparable<Club>{
 		this.name = name;
 		this.allowPetsType = allowPetsType;
 		listOwners = new ArrayList<Owner>();
-		
 		try {
 			this.createdAt = new SimpleDateFormat("yyyy-MM-dd").parse(createdAtString);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
-	/**
-	 * Method to register each owner in a club, according to the pets allowed by the club and owner preferences.
-	 */
-	public void registerOwnersFromCSV(int id,String firstName,String lastName,String birthdayString,String typePetsPrefer) {
-		listOwners.add(new Owner(id, firstName, lastName, birthdayString, typePetsPrefer));
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -70,6 +61,13 @@ public class Club implements Serializable,Comparable<Club>{
 		this.allowPetsType = allowPetsType;
 	}
 	
+	/**
+	 * Method to register each owner in a club, according to the pets allowed by the club and owner preferences.
+	 */
+	public void addOwner(int id,String firstName,String lastName,String birthdayString,String typePetsPrefer) {
+		listOwners.add(new Owner(id, firstName, lastName, birthdayString, typePetsPrefer));
+	}
+	
 	public void addOwner(Owner owner) {
 		listOwners.add(owner);
 	}
@@ -99,6 +97,16 @@ public class Club implements Serializable,Comparable<Club>{
 		for (Owner owner : listOwners) {
 			System.out.println(owner.getFirstName()+" "+owner.getLastName() + " " + "-- Number of pets:" + owner.getListPets().size());
 		}
+	}
+	
+	public boolean verifyIfOwnerExist(int idOwner) {
+		boolean ownerExist = false;
+		for (int i = 0; i < listOwners.size(); i++) {
+			if(idOwner==listOwners.get(i).getId()) {
+				ownerExist = true;
+			}
+		}
+		return ownerExist;
 	}
 	
 }

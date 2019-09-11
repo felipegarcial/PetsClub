@@ -357,7 +357,13 @@ public class Logic {
 			}
 		}
 	}
-
+	
+	/**
+	 * Method to sort all pets of owner of 
+	 * @param idClub
+	 * @param idOwner
+	 * @param nameCriteria
+	 */
 	public void sortPetsOfOwnersOfClubByCriteria(int idClub, int idOwner,String nameCriteria) {
 		for (int i = 0; i < listClubs.size(); i++) {
 			for (int j = 0; j < listClubs.get(i).getListOwners().size(); j++) {
@@ -365,7 +371,6 @@ public class Logic {
 				case "id":
 						Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(),petIdCompare);
 					break;
-
 				case "name":
 					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(),petNameCompare);
 					break;
@@ -382,6 +387,69 @@ public class Logic {
 					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(),petIdCompare);
 					break;
 				}
+			}
+		}
+	}
+	
+	/**
+	 * Method to add club
+	 * @param id
+	 * @param name
+	 * @param createdAtString
+	 * @param allowPetsType
+	 */
+	public void addClub(int id, String name, String createdAtString,String [] allowPetsType) {
+		boolean canSave = true;
+		for (int i = 0; i < listClubs.size(); i++) {
+			if(id==listClubs.get(i).getId() || name.equals(listClubs.get(i).getName())) {
+				canSave = false;
+				break;
+			}
+		}
+		if(canSave) {
+			listClubs.add(new Club(id, name, createdAtString, allowPetsType));
+		}
+	}
+	
+	
+	/**
+	 * Method to add new owner in a club
+	 * @param idClub
+	 * @param idOwner
+	 * @param firstName
+	 * @param lastName
+	 * @param birthday
+	 * @param typePetsPrefer
+	 */
+	public void addOwnerToClub(int idClub, int idOwner,String firstName,String lastName,String birthday, String typePetsPrefer) {
+		for (int i = 0; i < listClubs.size(); i++) {
+			if(idClub == listClubs.get(i).getId() && !listClubs.get(i).verifyIfOwnerExist(idOwner)) {
+				listClubs.get(i).addOwner(idOwner, firstName, lastName, birthday, typePetsPrefer);
+				break;
+			}
+			else {
+				System.out.println("No se puede registrar un usuario con el mismo ID");
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param idClub
+	 * @param idOwner
+	 * @param firstName
+	 * @param lastName
+	 * @param birthday
+	 * @param typePetsPrefer
+	 */
+	public void addPetToOwner(int idClub, int idOwner,String firstName,String lastName,String birthday, String typePetsPrefer) {
+		for (int i = 0; i < listClubs.size(); i++) {
+			if(idClub == listClubs.get(i).getId() && !listClubs.get(i).verifyIfOwnerExist(idOwner)) {
+				listClubs.get(i).addOwner(idOwner, firstName, lastName, birthday, typePetsPrefer);
+				break;
+			}
+			else {
+				System.out.println("No se puede registrar un usuario con el mismo ID");
 			}
 		}
 	}
