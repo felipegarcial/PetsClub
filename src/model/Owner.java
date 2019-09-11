@@ -86,6 +86,10 @@ public class Owner implements Serializable, Comparable<Owner>{
 	public void addPet(int id,String name, Date birthday,String gender,String type) {
 		listPets.add(new Pet(id,name,birthday,gender,type));
 	}
+	
+	public void addPet(int id,String name, String birthday,String gender,String type) {
+		listPets.add(new Pet(id,name,birthday,gender,type));
+	}
 		
 	public void addPet(Pet pet) {
 		listPets.add(pet);

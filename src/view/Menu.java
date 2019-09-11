@@ -125,6 +125,8 @@ public class Menu {
 	/**
 	 * 
 	 */
+	
+	//TODO Poner excepeciones para menejar el formato y la entrada de lo que se requiere
 	private void createClub() {
 		System.out.println("Por favor introducir Id club");
 		int id = inputOption.nextInt();
@@ -173,6 +175,8 @@ public class Menu {
 	/**
 	 * 
 	 */
+	
+	//TODO Poner excepeciones para menejar el formato y la entrada de lo que se requiere
 	public void createOwner() {
 		System.out.println("Please enter the club id");
 		int idClub = inputOption.nextInt();
@@ -183,23 +187,20 @@ public class Menu {
 		System.out.println("Please enter lastname");
 		String lastName = inputOption.next();
 		System.out.println("Please enter the birthday in this format yyyy/MM/DD example: 2019/06/26");
-		String createdAtString = inputOption.next();
+		String birthday = inputOption.next();
 		printListTypePets(); 
 		int optionTypePet = inputOption.nextInt();
 		String typePetPrefer = covertOptionInNameCare(optionTypePet);
-		System.out.println("=================================");
-		System.out.println(idClub);
-		System.out.println(idOwner);
-		System.out.println(firstName);
-		System.out.println(lastName);
-		System.out.println(createdAtString);
-		System.out.println(typePetPrefer);
+		
+		logic.addOwnerToClub(idClub, idOwner, firstName, lastName, birthday, typePetPrefer);
 	}
 	
 	
 	/**
 	 * 
 	 */
+	
+	//TODO Poner excepeciones para menejar el formato y la entrada de lo que se requiere
 	public void createPet() {
 		System.out.println("Please enter the club id");
 		int idClub = inputOption.nextInt();
@@ -208,25 +209,24 @@ public class Menu {
 		System.out.println("Please enter the pet id");
 		int idPet = inputOption.nextInt();
 		System.out.println("Please enter name");
-		String name = inputOption.next();
+		String namePet = inputOption.next();
 		System.out.println("Please enter gender");
-		String gender = inputOption.next();
+		System.out.println("1. Male");
+		System.out.println("2. Famele");
+		String genderPet = inputOption.nextInt()== 1 ?"Male":"Famele";
 		System.out.println("Please enter the birthday in this format yyyy/MM/DD example: 2019/06/26");
-		String birthday = inputOption.next();
+		String birthdayPet = inputOption.next();
 		printListTypePets(); 
 		int optionTypePet = inputOption.nextInt();
 		String typePet = covertOptionInNameCare(optionTypePet);
-		System.out.println("=================================");
-		System.out.println(idClub);
-		System.out.println(idOwner);
-		System.out.println(idPet);
-		System.out.println(name);
-		System.out.println(gender);
-		System.out.println(birthday);
-		System.out.println(typePet);
+		// -----------------------------------------
+		logic.addPetToOwner(idClub, idOwner, idPet, namePet, birthdayPet, genderPet, typePet);
 	}
 	
 	
+	/**
+	 * Print all options of type of pets
+	 */
 	private void printListTypePets() {
 		System.out.println("Please enter yor favorite type of pet");
 		System.out.println("1. Dog");

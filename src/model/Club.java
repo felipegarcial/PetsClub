@@ -109,4 +109,15 @@ public class Club implements Serializable,Comparable<Club>{
 		return ownerExist;
 	}
 	
+	
+	public void addPetToOwnerOfClub(int idOwner,int idPet,String namePet,String birthday,String gender,String type) {
+		for (int i = 0; i < listOwners.size(); i++) {
+			if(idOwner == listOwners.get(i).getId() && !listOwners.get(i).verifyIfPetExist(namePet)) {
+				listOwners.get(i).addPet(idPet,namePet,birthday,gender,type);
+				break;
+			}else {
+				System.out.println("No se puede guarda otra mascota con el nombre "+namePet);
+			}
+		}
+	}
 }

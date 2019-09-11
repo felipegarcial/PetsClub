@@ -70,11 +70,7 @@ public class Logic {
 			readSerializableFilesClub();
 		}
 
-		// Natural sort -----------------------------
-		sortClubsByOwnersNumber();
-		sortOwnersByPetsNumber(5);
-		// Sort by criteria-----------------------------
-
+		// Sort by criteria----------------------------
 		// Club----
 		clubIdCompare = new ClubIdCompare();
 		clubNameCompare = new ClubNameCompare();
@@ -109,6 +105,20 @@ public class Logic {
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}
+		}
+	}
+
+	private void saveOneSerializationFileClubs(int i, String nameFile) {
+		String nameFileEdited = listClubs.get(i).getName().replace(" ", "-");
+		try {
+			FileOutputStream fos = new FileOutputStream("./src/dataInfo/serializable/" + nameFileEdited + ".dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(listClubs.get(i));
+			oos.close();
+			fos.close();
+			System.out.println("Se actualizó el archivo " + nameFileEdited);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
 	}
 
@@ -333,7 +343,7 @@ public class Logic {
 		}
 	}
 
-	public void sortOwnersOfClubByCriteria(int idClub,String nameCriteria) {
+	public void sortOwnersOfClubByCriteria(int idClub, String nameCriteria) {
 		for (int i = 0; i < listClubs.size(); i++) {
 			switch (nameCriteria) {
 			case "id":
@@ -357,83 +367,76 @@ public class Logic {
 			}
 		}
 	}
-	
+
 	/**
-	 * Method to sort all pets of owner of 
+	 * Method to sort all pets of owner of
+	 * 
 	 * @param idClub
 	 * @param idOwner
 	 * @param nameCriteria
 	 */
-	public void sortPetsOfOwnersOfClubByCriteria(int idClub, int idOwner,String nameCriteria) {
+	public void sortPetsOfOwnersOfClubByCriteria(int idClub, int idOwner, String nameCriteria) {
 		for (int i = 0; i < listClubs.size(); i++) {
 			for (int j = 0; j < listClubs.get(i).getListOwners().size(); j++) {
 				switch (nameCriteria) {
 				case "id":
-						Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(),petIdCompare);
+					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petIdCompare);
 					break;
 				case "name":
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(),petNameCompare);
+					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petNameCompare);
 					break;
 				case "gender":
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(),petGenderCompare);
+					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petGenderCompare);
 					break;
 				case "birthday":
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(),petBirthdayCompare);
+					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petBirthdayCompare);
 					break;
 				case "type":
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(),petTypeCompare);
+					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petTypeCompare);
 					break;
 				default:
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(),petIdCompare);
+					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petIdCompare);
 					break;
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Method to add club
+	 * 
 	 * @param id
 	 * @param name
 	 * @param createdAtString
 	 * @param allowPetsType
 	 */
-	public void addClub(int id, String name, String createdAtString,String [] allowPetsType) {
+	public void addClub(int id, String name, String createdAtString, String[] allowPetsType) {
+
 		boolean canSave = true;
+
 		for (int i = 0; i < listClubs.size(); i++) {
-			if(id==listClubs.get(i).getId() || name.equals(listClubs.get(i).getName())) {
+			if (id == listClubs.get(i).getId() || name.equals(listClubs.get(i).getName())) {
 				canSave = false;
 				break;
 			}
 		}
-		if(canSave) {
+
+		if (canSave) {
 			listClubs.add(new Club(id, name, createdAtString, allowPetsType));
+			for (int i = 0; i < listClubs.size(); i++) {
+				if (id == listClubs.get(i).getId()) {
+					saveOneSerializationFileClubs(i, listClubs.get(i).getName());
+					break;
+				}
+			}
+			
+		}else {
+			System.out.println("No se puede crear un club con el mismo nombre o el mismo id");
 		}
 	}
-	
-	
+
 	/**
 	 * Method to add new owner in a club
-	 * @param idClub
-	 * @param idOwner
-	 * @param firstName
-	 * @param lastName
-	 * @param birthday
-	 * @param typePetsPrefer
-	 */
-	public void addOwnerToClub(int idClub, int idOwner,String firstName,String lastName,String birthday, String typePetsPrefer) {
-		for (int i = 0; i < listClubs.size(); i++) {
-			if(idClub == listClubs.get(i).getId() && !listClubs.get(i).verifyIfOwnerExist(idOwner)) {
-				listClubs.get(i).addOwner(idOwner, firstName, lastName, birthday, typePetsPrefer);
-				break;
-			}
-			else {
-				System.out.println("No se puede registrar un usuario con el mismo ID");
-			}
-		}
-	}
-	
-	/**
 	 * 
 	 * @param idClub
 	 * @param idOwner
@@ -442,16 +445,40 @@ public class Logic {
 	 * @param birthday
 	 * @param typePetsPrefer
 	 */
-	public void addPetToOwner(int idClub, int idOwner,String firstName,String lastName,String birthday, String typePetsPrefer) {
+	public void addOwnerToClub(int idClub, int idOwner, String firstName, String lastName, String birthday,
+			String typePetsPrefer) {
 		for (int i = 0; i < listClubs.size(); i++) {
-			if(idClub == listClubs.get(i).getId() && !listClubs.get(i).verifyIfOwnerExist(idOwner)) {
+			if (idClub == listClubs.get(i).getId() && !listClubs.get(i).verifyIfOwnerExist(idOwner)) {
 				listClubs.get(i).addOwner(idOwner, firstName, lastName, birthday, typePetsPrefer);
+				saveOneSerializationFileClubs(i, listClubs.get(i).getName());
 				break;
-			}
-			else {
+			} else {
 				System.out.println("No se puede registrar un usuario con el mismo ID");
 			}
 		}
 	}
 
+	/**
+	 * Method to add pet to owner of a club
+	 * 
+	 * @param idClub
+	 * @param idOwner
+	 * @param firstName
+	 * @param lastName
+	 * @param birthday
+	 * @param typePetsPrefer
+	 */
+	public void addPetToOwner(int idClub, int idOwner, int idPet, String namePet, String birthdayPet, String genderPet,
+			String typePet) {
+		for (int i = 0; i < listClubs.size(); i++) {
+			if (idClub == listClubs.get(i).getId() && listClubs.get(i).verifyIfOwnerExist(idOwner)) {
+				listClubs.get(i).addPetToOwnerOfClub(idOwner, idPet, namePet, birthdayPet, genderPet, typePet);
+				// -------------------------
+				saveOneSerializationFileClubs(i, listClubs.get(i).getName());
+				break;
+			} else {
+				System.out.println("No se puede encontrar el club o el usuario");
+			}
+		}
+	}
 }
