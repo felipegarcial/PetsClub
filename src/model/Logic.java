@@ -88,6 +88,7 @@ public class Logic {
 		petGenderCompare = new PetGenderCompare();
 		petBirthdayCompare = new PetBirthdayCompare();
 		petTypeCompare = new PetTypeCompare();
+
 	}
 
 	/**
@@ -108,6 +109,12 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * Method to save one serialize file club
+	 * 
+	 * @param i
+	 * @param nameFile
+	 */
 	private void saveOneSerializationFileClubs(int i, String nameFile) {
 		String nameFileEdited = listClubs.get(i).getName().replace(" ", "-");
 		try {
@@ -122,11 +129,21 @@ public class Logic {
 		}
 	}
 
+	private void deleteFileClub(String nameFileClub) {
+		File file = new File("./src/dataInfo/serializable/" + nameFileClub + ".dat");
+
+		if (file.delete()) {
+			System.out.println("File deleted successfully");
+		} else {
+			System.out.println("Failed to delete the file");
+		}
+		System.out.println();
+	}
+
 	/**
 	 * Method to read serializable files to get all club information
 	 */
 	private void readSerializableFilesClub() {
-		System.out.println(listClubs.size());
 		File dir = new File("./src/dataInfo/serializable/");
 		File[] directoryListing = dir.listFiles();
 		if (directoryListing != null) {
@@ -322,6 +339,11 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * Method to sort list of clubs by criteria
+	 * 
+	 * @param nameCriteria
+	 */
 	public void sortClubByCriteria(String nameCriteria) {
 		switch (nameCriteria) {
 		case "id":
@@ -343,6 +365,11 @@ public class Logic {
 		}
 	}
 
+	/**
+	 * Method to sort list of clubs by criteria
+	 * 
+	 * @param nameCriteria
+	 */
 	public void sortOwnersOfClubByCriteria(int idClub, String nameCriteria) {
 		for (int i = 0; i < listClubs.size(); i++) {
 			switch (nameCriteria) {
@@ -369,7 +396,7 @@ public class Logic {
 	}
 
 	/**
-	 * Method to sort all pets of owner of
+	 * Method to sort all pets of owner that belongs to Club
 	 * 
 	 * @param idClub
 	 * @param idOwner
@@ -429,8 +456,8 @@ public class Logic {
 					break;
 				}
 			}
-			
-		}else {
+
+		} else {
 			System.out.println("No se puede crear un club con el mismo nombre o el mismo id");
 		}
 	}
@@ -448,12 +475,15 @@ public class Logic {
 	public void addOwnerToClub(int idClub, int idOwner, String firstName, String lastName, String birthday,
 			String typePetsPrefer) {
 		for (int i = 0; i < listClubs.size(); i++) {
-			if (idClub == listClubs.get(i).getId() && !listClubs.get(i).verifyIfOwnerExist(idOwner)) {
-				listClubs.get(i).addOwner(idOwner, firstName, lastName, birthday, typePetsPrefer);
-				saveOneSerializationFileClubs(i, listClubs.get(i).getName());
-				break;
+			if (!listClubs.get(i).verifyIfOwnerExist(idOwner)) {
+				if (idClub == listClubs.get(i).getId()) {
+					listClubs.get(i).addOwner(idOwner, firstName, lastName, birthday, typePetsPrefer);
+					saveOneSerializationFileClubs(i, listClubs.get(i).getName());
+
+				}
 			} else {
 				System.out.println("No se puede registrar un usuario con el mismo ID");
+				break;
 			}
 		}
 	}
@@ -481,4 +511,83 @@ public class Logic {
 			}
 		}
 	}
+
+	/**
+	 * Method to delete a Club by id
+	 * 
+	 * @param id
+	 */
+	public void deleteClub(int id) {
+		System.out.println(listClubs.size());
+		for (int i = 0; i < listClubs.size(); i++) {
+			if (id == listClubs.get(i).getId()) {
+				listClubs.remove(i);
+				deleteFileClub(listClubs.get(i).getName());
+				System.out.println("Se borró el club con id "+id);
+				break;
+			}
+		}
+		System.out.println(listClubs.size());
+	}
+
+	/**
+	 * Method to delete a Club by name
+	 * 
+	 * @param name
+	 */
+	public void deleteClub(String name) {
+		for (int i = 0; i < listClubs.size(); i++) {
+			if (name.equals(listClubs.get(i).getName())) {
+				listClubs.remove(i);
+				deleteFileClub(listClubs.get(i).getName());
+				System.out.println("Se borró el club con nombre "+name);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Delete owner by id
+	 * 
+	 * @param id
+	 */
+	public void deleteOwnerInClub(int idOwner) {
+		for (int i = 0; i < listClubs.size(); i++) {
+			listClubs.get(i).removeOwner(idOwner);
+		}
+	}
+
+	/**
+	 * Delete owner by name
+	 * 
+	 * @param name
+	 */
+	public void deleteOwner(String firstName, String lastName) {
+		for (int i = 0; i < listClubs.size(); i++) {
+			listClubs.get(i).removeOwner(firstName,lastName);
+		}
+	}
+
+	/**
+	 * Delete owner by id
+	 * 
+	 * @param id
+	 */
+	public void deletePet(int id) {
+		for (int i = 0; i < listClubs.size(); i++) {
+			listClubs.get(i).removePetFromOwner(id);
+		}
+	}
+
+	/**
+	 * Delete Pet by name
+	 * 
+	 * @param name
+	 */
+	public void deletePet(String name) {
+		for (int i = 0; i < listClubs.size(); i++) {
+			listClubs.get(i).removePetFromOwner(name);
+		}
+	}
+
 }

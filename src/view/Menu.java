@@ -21,24 +21,21 @@ public class Menu {
 
 			switch (optionMenu) {
 			case 1:
-				System.out.println("Entro 1");
 				createElementEntity();
 				break;
 			case 2:
-				System.out.println("Entro 2");
+				
 				break;
 			case 3:
-				System.out.println("Entro 3");
+				deleteEntity();
 				break;
 			case 4:
-				System.out.println("Entro 4");
 				break;
 			case 5:
 				exit = true;
 				break;
 
 			default:
-				System.out.println("Entro 4");
 				break;
 			}
 		}
@@ -191,7 +188,7 @@ public class Menu {
 		printListTypePets(); 
 		int optionTypePet = inputOption.nextInt();
 		String typePetPrefer = covertOptionInNameCare(optionTypePet);
-		
+		// -----------------------------------------
 		logic.addOwnerToClub(idClub, idOwner, firstName, lastName, birthday, typePetPrefer);
 	}
 	
@@ -238,6 +235,79 @@ public class Menu {
 		System.out.println("7. Bird");
 		System.out.println("8. Rabbit");
 	};
+	
+	private void deleteEntity() {
+		System.out.println("1. Delete a Club");
+		System.out.println("2. Delete a Owner");
+		System.out.println("3. Delete a Pet");
+
+		int value = inputOption.nextInt();
+
+		switch (value) {
+		case 1:
+			deleteClub();
+			break;
+		case 2:
+			deleteOwner();
+			break;
+		case 3:
+			deletePet();
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void deletePet() {
+		System.out.println("Delete pet:");
+		System.out.println("1. Delete for name");
+		System.out.println("2. Delete for id");
+		int value = inputOption.nextInt();
+		if(value==1) {
+			System.out.println("Enter the id of the pet to delete");
+			String name = inputOption.next();
+			logic.deletePet(name);
+		}else if(value==2){
+			System.out.println("Enter the id of the pet to delete");
+			int id = inputOption.nextInt();
+			logic.deletePet(id);
+		}
+	}
+
+	private void deleteOwner() {
+		System.out.println("Delete owner:");
+		System.out.println("1. Delete for name");
+		System.out.println("2. Delete for id");
+		int value = inputOption.nextInt();
+		if(value==1) {
+			System.out.println("Enter the firstname of the owner to delete");
+			String firstName = inputOption.next();
+			System.out.println("Enter the lastname of the owner to delete");
+			String lastName = inputOption.next();
+			logic.deleteOwner(firstName, lastName);
+		}else if(value==2){
+			System.out.println("Enter the id of the owner to delete");
+			int id = inputOption.nextInt();
+			logic.deleteOwnerInClub(id);
+		}
+	}
+
+	private void deleteClub() {
+		System.out.println("Delete club:");
+		System.out.println("1. Delete for name");
+		System.out.println("2. Delete for id");
+		int value = inputOption.nextInt();
+		if(value==1) {
+			System.out.println("Enter the name of the club to delete");
+			String name = inputOption.next();
+			logic.deleteClub(name);
+		}else if(value==2){
+			System.out.println("Enter the id of the club to delete");
+			int id = inputOption.nextInt();
+			logic.deleteClub(id);
+		}
+		
+	}
 	
 }
 

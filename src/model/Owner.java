@@ -113,4 +113,25 @@ public class Owner implements Serializable, Comparable<Owner>{
 		}
 		return existPet;
 	}
+	
+
+	public void removePet(String namePet) {
+		for (int i = 0; i < listPets.size(); i++) {
+			if(namePet.equals(listPets.get(i).getName())) {
+				listPets.remove(i);
+				System.out.println("Se borró las mascota con nombre "+namePet);
+				break;
+			}
+		}
+	}
+
+	public void removePet(int idPet) {
+		for (int i = 0; i < listPets.size(); i++) {
+			if(idPet==listPets.get(i).getId()) {
+				listPets.remove(i);
+				System.out.println("Se borró las mascota con id "+idPet);
+				break;
+			}
+		}
+	}
 }

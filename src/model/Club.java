@@ -102,6 +102,7 @@ public class Club implements Serializable,Comparable<Club>{
 	public boolean verifyIfOwnerExist(int idOwner) {
 		boolean ownerExist = false;
 		for (int i = 0; i < listOwners.size(); i++) {
+			System.out.println(listOwners.get(i).getId());
 			if(idOwner==listOwners.get(i).getId()) {
 				ownerExist = true;
 			}
@@ -118,6 +119,38 @@ public class Club implements Serializable,Comparable<Club>{
 			}else {
 				System.out.println("No se puede guarda otra mascota con el nombre "+namePet);
 			}
+		}
+	}
+
+	public void removeOwner(int idClub) {
+		for (int i = 0; i < listOwners.size(); i++) {
+			if(idClub==listOwners.get(i).getId()) {
+				listOwners.remove(i);
+				System.out.println("Se borró el dueño con id "+idClub);
+				break;
+			}
+		}
+	}
+
+	public void removeOwner(String firstName,String lastName) {
+		for (int i = 0; i < listOwners.size(); i++) {
+			if(firstName.equals(listOwners.get(i).getFirstName()) && lastName.equals(listOwners.get(i).getLastName())) {
+				listOwners.remove(i);
+				System.out.println("Se borró el dueño con nombre "+firstName+" "+lastName);
+				break;
+			}
+		}
+	}
+	
+	public void removePetFromOwner(String namePet) {
+		for (int i = 0; i < listOwners.size(); i++) {
+			listOwners.get(i).removePet(namePet);
+		}
+	}
+	
+	public void removePetFromOwner(int idPet) {
+		for (int i = 0; i < listOwners.size(); i++) {
+			listOwners.get(i).removePet(idPet);
 		}
 	}
 }
