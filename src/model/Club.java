@@ -95,7 +95,7 @@ public class Club implements Serializable,Comparable<Club>{
 	public void sortOwnersByPetsNumber() {
 		Collections.sort(listOwners);
 		for (Owner owner : listOwners) {
-			System.out.println(owner.getFirstName()+" "+owner.getLastName() + " " + "-- Number of pets:" + owner.getListPets().size());
+			System.out.println(owner.getId()+" "+owner.getFirstName()+" "+owner.getLastName() + " " + "-- Number of pets:" + owner.getListPets().size());
 		}
 	}
 	

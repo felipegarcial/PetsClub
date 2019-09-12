@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 public class Logic {
 	ArrayList<Club> listClubs;
@@ -318,10 +319,11 @@ public class Logic {
 	/**
 	 * Method to sort club by owners number
 	 */
-	private void sortClubsByOwnersNumber() {
+	public void sortClubsByOwnersNumber() {
 		Collections.sort(listClubs);
 		for (Club club : listClubs) {
-			System.out.println(club.getName() + " " + "-- Number of owners:" + club.getListOwners().size());
+			System.out.println(
+					club.getId() + " " + club.getName() + " " + "-- Number of owners:" + club.getListOwners().size());
 		}
 	}
 
@@ -331,9 +333,11 @@ public class Logic {
 	 * @param nameClub
 	 */
 	public void sortOwnersByPetsNumber(int idClub) {
+		int indexClubSelected = 0;
 		for (int i = 0; i < listClubs.size(); i++) {
 			if (listClubs.get(i).getId() == idClub) {
 				listClubs.get(i).sortOwnersByPetsNumber();
+				indexClubSelected = i;
 				break;
 			}
 		}
@@ -349,7 +353,6 @@ public class Logic {
 		case "id":
 			Collections.sort(listClubs, clubIdCompare);
 			break;
-
 		case "name":
 			Collections.sort(listClubs, clubNameCompare);
 			break;
@@ -363,6 +366,9 @@ public class Logic {
 			Collections.sort(listClubs, clubIdCompare);
 			break;
 		}
+		for (Club club : listClubs) {
+			System.out.println(club.getId() + " " + club.getName() + " " + "Created at:" + club.getCreatedAt());
+		}
 	}
 
 	/**
@@ -371,27 +377,41 @@ public class Logic {
 	 * @param nameCriteria
 	 */
 	public void sortOwnersOfClubByCriteria(int idClub, String nameCriteria) {
+		int index = 0;
 		for (int i = 0; i < listClubs.size(); i++) {
-			switch (nameCriteria) {
-			case "id":
-				Collections.sort(listClubs.get(i).getListOwners(), ownerIdCompare);
-				break;
-			case "firstName":
-				Collections.sort(listClubs.get(i).getListOwners(), ownerFirstNameCompare);
-				break;
-			case "lastName":
-				Collections.sort(listClubs.get(i).getListOwners(), ownerLastNameCompare);
-				break;
-			case "birthday":
-				Collections.sort(listClubs.get(i).getListOwners(), ownerBirthdayCompare);
-				break;
-			case "typePetsPrefer":
-				Collections.sort(listClubs.get(i).getListOwners(), ownerTypePetsPreferCompare);
-				break;
-			default:
-				Collections.sort(listClubs.get(i).getListOwners(), ownerIdCompare);
+			if (idClub == listClubs.get(i).getId()) {
+				index = i;
+				switch (nameCriteria) {
+				case "id":
+					Collections.sort(listClubs.get(i).getListOwners(), ownerIdCompare);
+					break;
+				case "firstName":
+					Collections.sort(listClubs.get(i).getListOwners(), ownerFirstNameCompare);
+					break;
+				case "lastName":
+					Collections.sort(listClubs.get(i).getListOwners(), ownerLastNameCompare);
+					break;
+				case "birthday":
+					Collections.sort(listClubs.get(i).getListOwners(), ownerBirthdayCompare);
+					break;
+				case "typePetsPrefer":
+					Collections.sort(listClubs.get(i).getListOwners(), ownerTypePetsPreferCompare);
+					break;
+				default:
+					Collections.sort(listClubs.get(i).getListOwners(), ownerIdCompare);
+					break;
+				}
 				break;
 			}
+		}
+		
+		for (Owner owner : listClubs.get(index).getListOwners()) {
+			int id = owner.getId();
+			String name = owner.getFirstName() + " "+owner.getLastName();
+			Date birthday = owner.getBirthday();
+			String typePetPrefer = owner.getTypePetsPrefer();
+			
+			System.out.println(id + " " + name + " " + birthday + " "+ typePetPrefer);
 		}
 	}
 
@@ -403,29 +423,47 @@ public class Logic {
 	 * @param nameCriteria
 	 */
 	public void sortPetsOfOwnersOfClubByCriteria(int idClub, int idOwner, String nameCriteria) {
+		int indexClub=0;
+		int indexOwner=0;
 		for (int i = 0; i < listClubs.size(); i++) {
-			for (int j = 0; j < listClubs.get(i).getListOwners().size(); j++) {
-				switch (nameCriteria) {
-				case "id":
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petIdCompare);
-					break;
-				case "name":
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petNameCompare);
-					break;
-				case "gender":
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petGenderCompare);
-					break;
-				case "birthday":
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petBirthdayCompare);
-					break;
-				case "type":
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petTypeCompare);
-					break;
-				default:
-					Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petIdCompare);
-					break;
+			if(idClub == listClubs.get(i).getId()) {
+				indexClub = i;
+				for (int j = 0; j < listClubs.get(i).getListOwners().size(); j++) {
+					if(idClub == listClubs.get(i).getListOwners().get(i).getId()) {
+						indexOwner = j;
+						switch (nameCriteria) {
+						case "id":
+							Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petIdCompare);
+							break;
+						case "name":
+							Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petNameCompare);
+							break;
+						case "gender":
+							Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petGenderCompare);
+							break;
+						case "birthday":
+							Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petBirthdayCompare);
+							break;
+						case "type":
+							Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petTypeCompare);
+							break;
+						default:
+							Collections.sort(listClubs.get(i).getListOwners().get(j).getListPets(), petIdCompare);
+							break;
+						}
+					}
 				}
 			}
+		}
+		
+		for (Pet pet : listClubs.get(indexClub).getListOwners().get(indexOwner).getListPets()) {
+			int id = pet.getId();
+			String name = pet.getName();
+			Date birthday = pet.getBirthday();
+			String type = pet.getType();
+			String gender = pet.getGender();
+			
+			System.out.println(id + " " + name + " " + birthday + " "+ type+" "+gender);
 		}
 	}
 
@@ -523,7 +561,7 @@ public class Logic {
 			if (id == listClubs.get(i).getId()) {
 				listClubs.remove(i);
 				deleteFileClub(listClubs.get(i).getName());
-				System.out.println("Se borró el club con id "+id);
+				System.out.println("Se borró el club con id " + id);
 				break;
 			}
 		}
@@ -540,7 +578,7 @@ public class Logic {
 			if (name.equals(listClubs.get(i).getName())) {
 				listClubs.remove(i);
 				deleteFileClub(listClubs.get(i).getName());
-				System.out.println("Se borró el club con nombre "+name);
+				System.out.println("Se borró el club con nombre " + name);
 				break;
 			}
 		}
@@ -564,7 +602,7 @@ public class Logic {
 	 */
 	public void deleteOwner(String firstName, String lastName) {
 		for (int i = 0; i < listClubs.size(); i++) {
-			listClubs.get(i).removeOwner(firstName,lastName);
+			listClubs.get(i).removeOwner(firstName, lastName);
 		}
 	}
 
