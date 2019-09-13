@@ -2,6 +2,10 @@ package view;
 
 import java.util.Scanner;
 
+import exceptions.ExceptionExistClub;
+import exceptions.ExceptionNoRepeatIdOwner;
+import exceptions.ExceptionNoRepeatNameOrIdClub;
+import exceptions.ExceptionOwnerExist;
 import model.Logic;
 
 public class Menu {
@@ -168,7 +172,11 @@ public class Menu {
 			int typePet = inputOption.nextInt();
 			typePetsAllowed += covertOptionInNameCare(typePet) + ",";
 		}
-		logic.addClub(id, name, createdAtString, typePetsAllowed.split(","));
+		try {
+			logic.addClub(id, name, createdAtString, typePetsAllowed.split(","));
+		} catch (ExceptionNoRepeatNameOrIdClub e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	/**
@@ -186,13 +194,17 @@ public class Menu {
 		String firstName = inputOption.next();
 		System.out.println("Please enter lastname");
 		String lastName = inputOption.next();
-		System.out.println("Please enter the birthday in this format yyyy/MM/DD example: 2019/06/26");
+		System.out.println("Please enter the birthday in this format yyyy-MM-DD example: 2019-06-26");
 		String birthday = inputOption.next();
 		printListTypePets();
 		int optionTypePet = inputOption.nextInt();
 		String typePetPrefer = covertOptionInNameCare(optionTypePet);
 		// -----------------------------------------
-		logic.addOwnerToClub(idClub, idOwner, firstName, lastName, birthday, typePetPrefer);
+		try {
+			logic.addOwnerToClub(idClub, idOwner, firstName, lastName, birthday, typePetPrefer);
+		} catch (ExceptionNoRepeatIdOwner e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	/**
@@ -220,7 +232,11 @@ public class Menu {
 		int optionTypePet = inputOption.nextInt();
 		String typePet = covertOptionInNameCare(optionTypePet);
 		// -----------------------------------------
-		logic.addPetToOwner(idClub, idOwner, idPet, namePet, birthdayPet, genderPet, typePet);
+		try {
+			logic.addPetToOwner(idClub, idOwner, idPet, namePet, birthdayPet, genderPet, typePet);
+		} catch (ExceptionOwnerExist e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	/**

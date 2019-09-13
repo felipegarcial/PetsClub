@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;  
+import java.util.Date;
+
+import exceptions.ExceptionNoRepeatNamePetOfOwner;  
 
 public class Club implements Serializable,Comparable<Club>{
 
@@ -111,13 +113,13 @@ public class Club implements Serializable,Comparable<Club>{
 	}
 	
 	
-	public void addPetToOwnerOfClub(int idOwner,int idPet,String namePet,String birthday,String gender,String type) {
+	public void addPetToOwnerOfClub(int idOwner,int idPet,String namePet,String birthday,String gender,String type) throws ExceptionNoRepeatNamePetOfOwner {
 		for (int i = 0; i < listOwners.size(); i++) {
 			if(idOwner == listOwners.get(i).getId() && !listOwners.get(i).verifyIfPetExist(namePet)) {
 				listOwners.get(i).addPet(idPet,namePet,birthday,gender,type);
 				break;
 			}else {
-				System.out.println("No se puede guarda otra mascota con el nombre "+namePet);
+				throw new ExceptionNoRepeatNamePetOfOwner("Can't create pet with the same name");
 			}
 		}
 	}

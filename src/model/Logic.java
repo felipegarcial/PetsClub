@@ -10,6 +10,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
+
+import exceptions.ExceptionExistClub;
+import exceptions.ExceptionNoRepeatIdOwner;
+import exceptions.ExceptionNoRepeatNameOrIdClub;
+import exceptions.ExceptionNoRepeatNamePetOfOwner;
+import exceptions.ExceptionOwnerExist;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -529,8 +536,9 @@ public class Logic {
 	 * @param name
 	 * @param createdAtString
 	 * @param allowPetsType
+	 * @throws ExceptionNoRepeatNameOrIdClub 
 	 */
-	public void addClub(int id, String name, String createdAtString, String[] allowPetsType) {
+	public void addClub(int id, String name, String createdAtString, String[] allowPetsType) throws ExceptionNoRepeatNameOrIdClub {
 
 		boolean canSave = true;
 
@@ -551,7 +559,7 @@ public class Logic {
 			}
 
 		} else {
-			System.out.println("No se puede crear un club con el mismo nombre o el mismo id");
+			throw new ExceptionNoRepeatNameOrIdClub("Can't create Club with the same name or id");
 		}
 	}
 
@@ -564,20 +572,27 @@ public class Logic {
 	 * @param lastName
 	 * @param birthday
 	 * @param typePetsPrefer
+	 * @throws ExceptionNoRepeatIdOwner 
 	 */
 	public void addOwnerToClub(int idClub, int idOwner, String firstName, String lastName, String birthday,
-			String typePetsPrefer) {
+			String typePetsPrefer) throws ExceptionNoRepeatIdOwner {
+		
+		boolean userExist = false;
 		for (int i = 0; i < listClubs.size(); i++) {
 			if (!listClubs.get(i).verifyIfOwnerExist(idOwner)) {
 				if (idClub == listClubs.get(i).getId()) {
 					listClubs.get(i).addOwner(idOwner, firstName, lastName, birthday, typePetsPrefer);
 					saveOneSerializationFileClubs(i, listClubs.get(i).getName());
-
+					break;
 				}
-			} else {
-				System.out.println("No se puede registrar un usuario con el mismo ID");
+			}else {
+				userExist = true;
 				break;
 			}
+		}
+		
+		if(userExist) {
+			throw new ExceptionNoRepeatIdOwner("Can't create user with the same ID");
 		}
 	}
 
@@ -590,17 +605,22 @@ public class Logic {
 	 * @param lastName
 	 * @param birthday
 	 * @param typePetsPrefer
+	 * @throws ExceptionOwnerExist 
 	 */
 	public void addPetToOwner(int idClub, int idOwner, int idPet, String namePet, String birthdayPet, String genderPet,
-			String typePet) {
+			String typePet) throws ExceptionOwnerExist {
 		for (int i = 0; i < listClubs.size(); i++) {
 			if (idClub == listClubs.get(i).getId() && listClubs.get(i).verifyIfOwnerExist(idOwner)) {
-				listClubs.get(i).addPetToOwnerOfClub(idOwner, idPet, namePet, birthdayPet, genderPet, typePet);
+				try {
+					listClubs.get(i).addPetToOwnerOfClub(idOwner, idPet, namePet, birthdayPet, genderPet, typePet);
+				} catch (ExceptionNoRepeatNamePetOfOwner e) {
+					System.out.println(e.getMessage());
+				}
 				// -------------------------
 				saveOneSerializationFileClubs(i, listClubs.get(i).getName());
 				break;
 			} else {
-				System.out.println("No se puede encontrar el club o el usuario");
+				throw new ExceptionOwnerExist("Owner not found");
 			}
 		}
 	}
