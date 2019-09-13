@@ -118,7 +118,6 @@ public class Menu {
 			return "dog";
 		}
 	}
-
 	/**
 	 * 
 	 */
@@ -293,7 +292,6 @@ public class Menu {
 		System.out.println("3. By birthday");
 		System.out.println("4. By type of pet");
 		System.out.println("5. By gender");
-		System.out.println("6. By insertion");
 		//--------------------------
 		int value = inputOption.nextInt();
 		switch (value) {
@@ -312,9 +310,6 @@ public class Menu {
 		case 5:
 			logic.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "gender");
 			break;
-		case 6:
-			
-			break;
 		default:
 			logic.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "id");
 			break;
@@ -332,8 +327,7 @@ public class Menu {
 		System.out.println("3. By firstname owner");
 		System.out.println("4. By lastname owner");
 		System.out.println("5. By types of pets prefer owner");
-		System.out.println("5. By birthday");
-		System.out.println("6. By selection");
+		System.out.println("6. By birthday");
 		//--------------------------
 		int value = inputOption.nextInt();
 		switch (value) {
@@ -355,9 +349,6 @@ public class Menu {
 		case 6:
 			logic.sortOwnersOfClubByCriteria(idClub,"birthday");
 			break;
-		case 7:
-
-			break;
 		default:
 			logic.sortClubsByOwnersNumber();
 			break;
@@ -372,7 +363,9 @@ public class Menu {
 		System.out.println("3. By name club");
 		System.out.println("4. By types of pets club");
 		System.out.println("5. By date of create club");
-		System.out.println("6. By burble sort");
+		System.out.println("6. By id with burble sort");
+		System.out.println("7. By id with selection sort");
+		System.out.println("8. By id with insertion sort");
 		int value = inputOption.nextInt();
 		switch (value) {
 		case 1:
@@ -391,13 +384,18 @@ public class Menu {
 			logic.sortClubByCriteria("createdAt");
 			break;
 		case 6:
-
+			logic.sortClubsByTraditionalsMethods("bubbleSort");
+			break;
+		case 7:
+			logic.sortClubsByTraditionalsMethods("selection");
+			break;
+		case 8:
+			logic.sortClubsByTraditionalsMethods("sort");
 			break;
 		default:
 			logic.sortClubsByOwnersNumber();
 			break;
 		}
-
 	}
 
 	private void deletePet() {
