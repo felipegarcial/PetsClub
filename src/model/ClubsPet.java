@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class Logic {
+public class ClubsPet {
 	private ArrayList<Club> listClubs;
 	private ArrayList<Owner> listGenericOwners;
 	private ArrayList<Pet> listGenericPets;
@@ -48,7 +48,7 @@ public class Logic {
 	private PetBirthdayCompare petBirthdayCompare;
 	private PetTypeCompare petTypeCompare;
 
-	public Logic() {
+	public ClubsPet() {
 		listClubs = new ArrayList<Club>();
 		listGenericOwners = new ArrayList<Owner>();
 		listGenericPets = new ArrayList<Pet>();

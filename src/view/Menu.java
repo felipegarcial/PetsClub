@@ -6,15 +6,15 @@ import exceptions.ExceptionExistClub;
 import exceptions.ExceptionNoRepeatIdOwner;
 import exceptions.ExceptionNoRepeatNameOrIdClub;
 import exceptions.ExceptionOwnerExist;
-import model.Logic;
+import model.ClubsPet;
 
 public class Menu {
 	private Scanner inputOption;
-	private Logic logic;
+	private ClubsPet clubPet;
 
 	public Menu() {
 		inputOption = new Scanner(System.in);
-		logic = new Logic();
+		clubPet = new ClubsPet();
 	}
 
 	public void selectOption() {
@@ -173,7 +173,7 @@ public class Menu {
 			typePetsAllowed += covertOptionInNameCare(typePet) + ",";
 		}
 		try {
-			logic.addClub(id, name, createdAtString, typePetsAllowed.split(","));
+			clubPet.addClub(id, name, createdAtString, typePetsAllowed.split(","));
 		} catch (ExceptionNoRepeatNameOrIdClub e) {
 			System.out.println(e.getMessage());
 		}
@@ -199,7 +199,7 @@ public class Menu {
 		String typePetPrefer = covertOptionInNameCare(optionTypePet);
 		// -----------------------------------------
 		try {
-			logic.addOwnerToClub(idClub, idOwner, firstName, lastName, birthday, typePetPrefer);
+			clubPet.addOwnerToClub(idClub, idOwner, firstName, lastName, birthday, typePetPrefer);
 		} catch (ExceptionNoRepeatIdOwner e) {
 			System.out.println(e.getMessage());
 		}
@@ -228,7 +228,7 @@ public class Menu {
 		String typePet = covertOptionInNameCare(optionTypePet);
 		// -----------------------------------------
 		try {
-			logic.addPetToOwner(idClub, idOwner, idPet, namePet, birthdayPet, genderPet, typePet);
+			clubPet.addPetToOwner(idClub, idOwner, idPet, namePet, birthdayPet, genderPet, typePet);
 		} catch (ExceptionOwnerExist e) {
 			System.out.println(e.getMessage());
 		}
@@ -293,11 +293,11 @@ public class Menu {
 		System.out.println("Sort Pets of owner:");
 		// --------------------------
 		System.out.println("Select the club");
-		logic.sortClubByCriteria("id");
+		clubPet.sortClubByCriteria("id");
 		int idClub = inputOption.nextInt();
 		// --------------------------
 		System.out.println("Select the Owner");
-		logic.sortOwnersOfClubByCriteria(idClub, "id");
+		clubPet.sortOwnersOfClubByCriteria(idClub, "id");
 		;
 		int idOwner = inputOption.nextInt();
 		// --------------------------
@@ -310,22 +310,22 @@ public class Menu {
 		int value = inputOption.nextInt();
 		switch (value) {
 		case 1:
-			logic.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "id");
+			clubPet.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "id");
 			break;
 		case 2:
-			logic.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "name");
+			clubPet.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "name");
 			break;
 		case 3:
-			logic.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "birthday");
+			clubPet.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "birthday");
 			break;
 		case 4:
-			logic.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "type");
+			clubPet.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "type");
 			break;
 		case 5:
-			logic.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "gender");
+			clubPet.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "gender");
 			break;
 		default:
-			logic.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "id");
+			clubPet.sortPetsOfOwnersOfClubByCriteria(idClub, idOwner, "id");
 			break;
 		}
 	}
@@ -333,7 +333,7 @@ public class Menu {
 	private void showOwnersSorted() {
 		System.out.println("Sort Owners:");
 		System.out.println("Select the club");
-		logic.sortClubByCriteria("id");
+		clubPet.sortClubByCriteria("id");
 		int idClub = inputOption.nextInt();
 		// --------------------------
 		System.out.println("1. By number of pets (Comparable)");
@@ -346,25 +346,25 @@ public class Menu {
 		int value = inputOption.nextInt();
 		switch (value) {
 		case 1:
-			logic.sortOwnersByPetsNumber(idClub);
+			clubPet.sortOwnersByPetsNumber(idClub);
 			break;
 		case 2:
-			logic.sortOwnersOfClubByCriteria(idClub, "id");
+			clubPet.sortOwnersOfClubByCriteria(idClub, "id");
 			break;
 		case 3:
-			logic.sortOwnersOfClubByCriteria(idClub, "firstName");
+			clubPet.sortOwnersOfClubByCriteria(idClub, "firstName");
 			break;
 		case 4:
-			logic.sortOwnersOfClubByCriteria(idClub, "lastName");
+			clubPet.sortOwnersOfClubByCriteria(idClub, "lastName");
 			break;
 		case 5:
-			logic.sortOwnersOfClubByCriteria(idClub, "typePetsPrefer");
+			clubPet.sortOwnersOfClubByCriteria(idClub, "typePetsPrefer");
 			break;
 		case 6:
-			logic.sortOwnersOfClubByCriteria(idClub, "birthday");
+			clubPet.sortOwnersOfClubByCriteria(idClub, "birthday");
 			break;
 		default:
-			logic.sortClubsByOwnersNumber();
+			clubPet.sortClubsByOwnersNumber();
 			break;
 		}
 
@@ -383,31 +383,31 @@ public class Menu {
 		int value = inputOption.nextInt();
 		switch (value) {
 		case 1:
-			logic.sortClubsByOwnersNumber();
+			clubPet.sortClubsByOwnersNumber();
 			break;
 		case 2:
-			logic.sortClubByCriteria("id");
+			clubPet.sortClubByCriteria("id");
 			break;
 		case 3:
-			logic.sortClubByCriteria("name");
+			clubPet.sortClubByCriteria("name");
 			break;
 		case 4:
-			logic.sortClubByCriteria("allowPetsType");
+			clubPet.sortClubByCriteria("allowPetsType");
 			break;
 		case 5:
-			logic.sortClubByCriteria("createdAt");
+			clubPet.sortClubByCriteria("createdAt");
 			break;
 		case 6:
-			logic.sortClubsByTraditionalsMethods("bubbleSort");
+			clubPet.sortClubsByTraditionalsMethods("bubbleSort");
 			break;
 		case 7:
-			logic.sortClubsByTraditionalsMethods("selection");
+			clubPet.sortClubsByTraditionalsMethods("selection");
 			break;
 		case 8:
-			logic.sortClubsByTraditionalsMethods("insertion");
+			clubPet.sortClubsByTraditionalsMethods("insertion");
 			break;
 		default:
-			logic.sortClubsByOwnersNumber();
+			clubPet.sortClubsByOwnersNumber();
 			break;
 		}
 	}
@@ -420,11 +420,11 @@ public class Menu {
 		if (value == 1) {
 			System.out.println("Enter the id of the pet to delete");
 			String name = inputOption.next();
-			logic.deletePet(name);
+			clubPet.deletePet(name);
 		} else if (value == 2) {
 			System.out.println("Enter the id of the pet to delete");
 			int id = inputOption.nextInt();
-			logic.deletePet(id);
+			clubPet.deletePet(id);
 		}
 	}
 
@@ -438,11 +438,11 @@ public class Menu {
 			String firstName = inputOption.next();
 			System.out.println("Enter the lastname of the owner to delete");
 			String lastName = inputOption.next();
-			logic.deleteOwner(firstName, lastName);
+			clubPet.deleteOwner(firstName, lastName);
 		} else if (value == 2) {
 			System.out.println("Enter the id of the owner to delete");
 			int id = inputOption.nextInt();
-			logic.deleteOwnerInClub(id);
+			clubPet.deleteOwnerInClub(id);
 		}
 	}
 
@@ -454,11 +454,11 @@ public class Menu {
 		if (value == 1) {
 			System.out.println("Enter the name of the club to delete");
 			String name = inputOption.next();
-			logic.deleteClub(name);
+			clubPet.deleteClub(name);
 		} else if (value == 2) {
 			System.out.println("Enter the id of the club to delete");
 			int id = inputOption.nextInt();
-			logic.deleteClub(id);
+			clubPet.deleteClub(id);
 		}
 
 	}
@@ -471,14 +471,14 @@ public class Menu {
 		if (value == 1) {
 			System.out.println("Enter the name of the club to find");
 			String name = inputOption.next();
-			logic.normalSearchClub(name);
-			logic.binarySearchClub(name);
+			clubPet.normalSearchClub(name);
+			clubPet.binarySearchClub(name);
 		} else if (value == 2) {
 			System.out.println("Enter the id of the club to find");
 			int id = inputOption.nextInt();
 			
-			logic.normalSearchClub(id);
-			logic.binarySearchClub(id);
+			clubPet.normalSearchClub(id);
+			clubPet.binarySearchClub(id);
 		}
 
 	}
