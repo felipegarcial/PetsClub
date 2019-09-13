@@ -22,39 +22,39 @@ import java.util.Collections;
 import java.util.Date;
 
 public class Logic {
-	ArrayList<Club> listClubs;
-	ArrayList<Owner> listGenericOwners;
-	ArrayList<Pet> listGenericPets;
-	File fileTxtClubs, fileCSVOwners, fileCSVPets;
-	BufferedReader brClubs, brClubsExist, brOwners, brPets;
+	private ArrayList<Club> listClubs;
+	private ArrayList<Owner> listGenericOwners;
+	private ArrayList<Pet> listGenericPets;
+	private File fileTxtClubs, fileCSVOwners, fileCSVPets;
+	private BufferedReader brClubs, brClubsExist, brOwners, brPets;
 	// ------------
 	// Compare club
-	ClubIdCompare clubIdCompare;
-	ClubNameCompare clubNameCompare;
-	ClubCreatedAtCompare clubCreatedAtCompare;
-	ClubAllowPetsCompare clubAllowPetsCompare;
+	private ClubIdCompare clubIdCompare;
+	private ClubNameCompare clubNameCompare;
+	private ClubCreatedAtCompare clubCreatedAtCompare;
+	private ClubAllowPetsCompare clubAllowPetsCompare;
 	// ------------
 	// Owner club
-	OwnerIdCompare ownerIdCompare;
-	OwnerFirstNameCompare ownerFirstNameCompare;
-	OwnerLastNameCompare ownerLastNameCompare;
-	OwnerBirthdayCompare ownerBirthdayCompare;
-	OwnerTypePetsPreferCompare ownerTypePetsPreferCompare;
+	private OwnerIdCompare ownerIdCompare;
+	private OwnerFirstNameCompare ownerFirstNameCompare;
+	private OwnerLastNameCompare ownerLastNameCompare;
+	private OwnerBirthdayCompare ownerBirthdayCompare;
+	private OwnerTypePetsPreferCompare ownerTypePetsPreferCompare;
 	// ------------
 	// Compare club
-	PetIdCompare petIdCompare;
-	PetNameCompare petNameCompare;
-	PetGenderCompare petGenderCompare;
-	PetBirthdayCompare petBirthdayCompare;
-	PetTypeCompare petTypeCompare;
+	private PetIdCompare petIdCompare;
+	private PetNameCompare petNameCompare;
+	private PetGenderCompare petGenderCompare;
+	private PetBirthdayCompare petBirthdayCompare;
+	private PetTypeCompare petTypeCompare;
 
 	public Logic() {
 		listClubs = new ArrayList<Club>();
 		listGenericOwners = new ArrayList<Owner>();
 		listGenericPets = new ArrayList<Pet>();
 		fileTxtClubs = new File("./src/dataInfo/toImport/clubs.txt");
-		fileCSVOwners = new File("./src/dataInfo/shortToImport/owner.csv");
-		fileCSVPets = new File("./src/dataInfo/shortToImport/pets.csv");
+		fileCSVOwners = new File("./src/dataInfo/toImport/owner.csv");
+		fileCSVPets = new File("./src/dataInfo/toImport/pets.csv");
 
 		try {
 			brClubsExist = new BufferedReader(new FileReader(fileTxtClubs));
@@ -436,7 +436,7 @@ public class Logic {
 
 	/**
 	 * Method to sort list of clubs by criteria
-	 * 
+	 * @param idClub
 	 * @param nameCriteria
 	 */
 	public void sortOwnersOfClubByCriteria(int idClub, String nameCriteria) {

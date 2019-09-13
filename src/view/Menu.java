@@ -183,9 +183,7 @@ public class Menu {
 	 * 
 	 */
 
-	// TODO Poner excepeciones para menejar el formato y la entrada de lo que se
-	// requiere
-	public void createOwner() {
+	private void createOwner() {
 		System.out.println("Please enter the club id");
 		int idClub = inputOption.nextInt();
 		System.out.println("Please enter the owner id");
@@ -210,10 +208,7 @@ public class Menu {
 	/**
 	 * 
 	 */
-
-	// TODO Poner excepeciones para menejar el formato y la entrada de lo que se
-	// requiere
-	public void createPet() {
+	private void createPet() {
 		System.out.println("Please enter the club id");
 		int idClub = inputOption.nextInt();
 		System.out.println("Please enter the owner id");

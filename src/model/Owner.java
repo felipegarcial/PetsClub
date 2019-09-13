@@ -38,6 +38,61 @@ public class Owner implements Serializable, Comparable<Owner>{
 		this.birthday = birthday;
 		listPets = new ArrayList<Pet>();
 	}
+
+
+	public void addPet(int id,String name, Date birthday,String gender,String type) {
+		listPets.add(new Pet(id,name,birthday,gender,type));
+	}
+	
+	public void addPet(int id,String name, String birthday,String gender,String type) {
+		listPets.add(new Pet(id,name,birthday,gender,type));
+	}
+		
+	public void addPet(Pet pet) {
+		listPets.add(pet);
+	}
+
+
+	public int compareTo(Owner owner) {
+		return listPets.size() - owner.getListPets().size();
+	}
+	
+	public boolean verifyIfPetExist(String namePet) {
+		boolean existPet = false;
+		for (int i = 0; i < listPets.size(); i++) {
+			if(namePet.equals(listPets.get(i).getName())){
+				existPet = true;
+				break;
+			}else {
+				System.out.println("La mascota ya existe en este usuario");
+				break;
+			}
+		}
+		return existPet;
+	}
+	
+
+	public void removePet(String namePet) {
+		for (int i = 0; i < listPets.size(); i++) {
+			if(namePet.equals(listPets.get(i).getName())) {
+				listPets.remove(i);
+				System.out.println("Se borró las mascota con nombre "+namePet);
+				break;
+			}
+		}
+	}
+
+	public void removePet(int idPet) {
+		for (int i = 0; i < listPets.size(); i++) {
+			if(idPet==listPets.get(i).getId()) {
+				listPets.remove(i);
+				System.out.println("Se borró las mascota con id "+idPet);
+				break;
+			}
+		}
+	}
+	
+	
 	
 	public int getId() {
 		return id;
@@ -81,57 +136,5 @@ public class Owner implements Serializable, Comparable<Owner>{
 
 	public ArrayList<Pet> getListPets() {
 		return listPets;
-	}
-
-	public void addPet(int id,String name, Date birthday,String gender,String type) {
-		listPets.add(new Pet(id,name,birthday,gender,type));
-	}
-	
-	public void addPet(int id,String name, String birthday,String gender,String type) {
-		listPets.add(new Pet(id,name,birthday,gender,type));
-	}
-		
-	public void addPet(Pet pet) {
-		listPets.add(pet);
-	}
-
-	@Override
-	public int compareTo(Owner owner) {
-		return listPets.size() - owner.getListPets().size();
-	}
-	
-	public boolean verifyIfPetExist(String namePet) {
-		boolean existPet = false;
-		for (int i = 0; i < listPets.size(); i++) {
-			if(namePet.equals(listPets.get(i).getName())){
-				existPet = true;
-				break;
-			}else {
-				System.out.println("La mascota ya existe en este usuario");
-				break;
-			}
-		}
-		return existPet;
-	}
-	
-
-	public void removePet(String namePet) {
-		for (int i = 0; i < listPets.size(); i++) {
-			if(namePet.equals(listPets.get(i).getName())) {
-				listPets.remove(i);
-				System.out.println("Se borró las mascota con nombre "+namePet);
-				break;
-			}
-		}
-	}
-
-	public void removePet(int idPet) {
-		for (int i = 0; i < listPets.size(); i++) {
-			if(idPet==listPets.get(i).getId()) {
-				listPets.remove(i);
-				System.out.println("Se borró las mascota con id "+idPet);
-				break;
-			}
-		}
 	}
 }
