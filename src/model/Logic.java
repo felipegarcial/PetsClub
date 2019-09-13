@@ -45,11 +45,9 @@ public class Logic {
 		listClubs = new ArrayList<Club>();
 		listGenericOwners = new ArrayList<Owner>();
 		listGenericPets = new ArrayList<Pet>();
-
-		fileTxtClubs = new File("C:\\Users\\pipeg\\eclipse-workspace\\PetClub\\src\\dataInfo\\toImport\\clubs.txt");
-		fileCSVOwners = new File(
-				"C:\\Users\\pipeg\\eclipse-workspace\\PetClub\\src\\dataInfo\\shortToImport\\owner.csv");
-		fileCSVPets = new File("C:\\Users\\pipeg\\eclipse-workspace\\PetClub\\src\\dataInfo\\shortToImport\\pets.csv");
+		fileTxtClubs = new File("./src/dataInfo/toImport/clubs.txt");
+		fileCSVOwners = new File("./src/dataInfo/shortToImport/owner.csv");
+		fileCSVPets = new File("./src/dataInfo/shortToImport/pets.csv");
 
 		try {
 			brClubsExist = new BufferedReader(new FileReader(fileTxtClubs));
@@ -375,16 +373,6 @@ public class Logic {
 	 * Method to sort list by bubble sort
 	 */
 	public void sortClubsByTraditionalsMethods(String methodSort) {
-		System.out.println("''''''''''''''''''''''''''''''''''''''''");
-		System.out.println("''''''''''''''''''''''''''''''''''''''''");
-		System.out.println("''''''''''''''''''''''''''''''''''''''''");
-		for (Club club : listClubs) {
-			System.out.println(club.getId() + " " + club.getName());
-		}
-		System.out.println("''''''''''''''''''''''''''''''''''''''''");
-		System.out.println("''''''''''''''''''''''''''''''''''''''''");
-		System.out.println("''''''''''''''''''''''''''''''''''''''''");
-		
 		switch (methodSort) {
 		
 		case "bubbleSort":
@@ -634,6 +622,141 @@ public class Logic {
 		}
 		System.out.println(listClubs.size());
 	}
+	
+
+	/**
+	 * Method to search club by Club id with normal search
+	 * @param idClub
+	 */
+	public void normalSearchClub(int idClub) {
+		boolean foundClub = true;
+		long start = System.currentTimeMillis(); 
+		for (int i = 0; i < listClubs.size(); i++) {
+			if(listClubs.get(i).getId() == idClub) {
+				String name = listClubs.get(i).getName();
+				int id = listClubs.get(i).getId();
+				Date created = listClubs.get(i).getCreatedAt();
+				String petsAllowed = listClubs.get(i).getListPetsAllowString();
+				foundClub = false;
+				System.out.println(id+" "+name+" "+created+" "+"Pets allows:"+" "+petsAllowed);
+				break;
+			}
+		}
+		long end = System.currentTimeMillis(); 
+		System.out.println("The algorithm of normal search spent: "+(start - end)+"ms");
+		if(foundClub) {
+			System.out.println("Not found club with id: "+idClub);
+		}
+	}
+	
+	/**
+	 * Method to search club by Club Name with normal search
+	 * @param nameClub
+	 */
+	public void normalSearchClub(String nameClub) {
+		boolean foundClub = true;
+		long start = System.currentTimeMillis(); 
+		for (int i = 0; i < listClubs.size(); i++) {
+			if(listClubs.get(i).getName().contains(nameClub)) {
+				String name = listClubs.get(i).getName();
+				int id = listClubs.get(i).getId();
+				Date created = listClubs.get(i).getCreatedAt();
+				String petsAllowed = listClubs.get(i).getListPetsAllowString();
+				foundClub = false;
+				System.out.println(id+" "+name+" "+created+" "+"Pets allows:"+" "+petsAllowed);
+				break;
+			}
+		}
+		long end = System.currentTimeMillis(); 
+		System.out.println("The algorithm of normal search spent: "+(start - end)+"ms");
+		if(foundClub) {
+			System.out.println("Not found club with name: "+nameClub);
+		}
+	}
+	
+	
+	/**
+	 * Method to search club by Club Id with binary search
+	 * @param idClub
+	 */
+	public void binarySearchClub(int idClub) {
+		long startTime = System.currentTimeMillis(); 
+		//--------------------------------
+		String name = "";
+		int id = 0;
+		String petsAllowed = "";
+		//--------------------------------
+		boolean found = false;
+		int start = 0;
+		int end = listClubs.size() -1;
+		//--------------------------------
+		Collections.sort(listClubs, clubIdCompare);
+		//--------------------------------
+		while (start <= end && !found) {
+			int mid = Math.round((start + end)/2);
+			if(listClubs.get(mid).getId() == idClub) {
+				found = true;
+				//-----------------------------
+				name = listClubs.get(mid).getName();
+				id = listClubs.get(mid).getId();
+				petsAllowed = listClubs.get(mid).getListPetsAllowString();
+			}
+			else if(listClubs.get(mid).getId()>idClub) {
+				end = mid - 1;
+			}else {
+				start=mid+1;
+			}
+		}
+		long endTime = System.currentTimeMillis(); 
+		System.out.println("The algorithm of binary search spent: "+(startTime - endTime)+"ms");
+		if(found) {
+			System.out.println(id+" "+name+" "+"Pets allows:"+" "+petsAllowed);
+		}else {
+			System.out.println("Not found club with id: "+idClub);
+		}
+	}
+	
+	
+	/**
+	 * Method to search club by Club Name with binary search
+	 * @param nameClub
+	 */
+	public void binarySearchClub(String nameClub) {
+		long startTime = System.currentTimeMillis(); 
+		//--------------------------------
+		String name = "";
+		int id = 0;
+		String petsAllowed = "";
+		//--------------------------------
+		boolean found = false;
+		int start = 0;
+		int end = listClubs.size() -1;
+		//--------------------------------
+		Collections.sort(listClubs, clubNameCompare);
+		//--------------------------------
+		while (start <= end && !found) {
+			int mid = Math.round((start + end)/2);
+			if(listClubs.get(mid).getName().contains(nameClub)) {
+				found = true;
+				//-----------------------------
+				name = listClubs.get(mid).getName();
+				id = listClubs.get(mid).getId();
+				petsAllowed = listClubs.get(mid).getListPetsAllowString();
+			}
+			else if(listClubs.get(mid).getName().compareTo(nameClub) > 0) {
+				end = mid - 1;
+			}else {
+				start=mid+1;
+			}
+		}
+		long endTime = System.currentTimeMillis(); 
+		System.out.println("The algorithm of binary search spent: "+(startTime - endTime)+"ms");
+		if(found) {
+			System.out.println(id+" "+name+" "+"Pets allows:"+" "+petsAllowed);
+		}else {
+			System.out.println("Not found club with name: "+nameClub);
+		}
+	}
 
 	/**
 	 * Method to delete a Club by name
@@ -694,5 +817,4 @@ public class Logic {
 			listClubs.get(i).removePetFromOwner(name);
 		}
 	}
-
 }

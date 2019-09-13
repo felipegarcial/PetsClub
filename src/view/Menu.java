@@ -30,6 +30,7 @@ public class Menu {
 				deleteEntity();
 				break;
 			case 4:
+				searchClub();
 				break;
 			case 5:
 				exit = true;
@@ -63,7 +64,7 @@ public class Menu {
 		System.out.println("1. Crear nuevo elemente en alguna entidad");
 		System.out.println("2. Mostrar listados ordenados de entidades");
 		System.out.println("3. Borrar elemento en alguna entidad");
-		System.out.println("4. Buscar elemento de una entidad");
+		System.out.println("4. Buscar un club");
 		System.out.println("5. Salir del programa");
 		int value = inputOption.nextInt();
 		return value;
@@ -118,6 +119,7 @@ public class Menu {
 			return "dog";
 		}
 	}
+
 	/**
 	 * 
 	 */
@@ -278,21 +280,22 @@ public class Menu {
 
 	private void showPetsSorted() {
 		System.out.println("Sort Pets of owner:");
-		//--------------------------
+		// --------------------------
 		System.out.println("Select the club");
 		logic.sortClubByCriteria("id");
 		int idClub = inputOption.nextInt();
-		//--------------------------
+		// --------------------------
 		System.out.println("Select the Owner");
-		logic.sortOwnersOfClubByCriteria(idClub,"id");;
+		logic.sortOwnersOfClubByCriteria(idClub, "id");
+		;
 		int idOwner = inputOption.nextInt();
-		//--------------------------
+		// --------------------------
 		System.out.println("1. By id");
 		System.out.println("2. By name");
 		System.out.println("3. By birthday");
 		System.out.println("4. By type of pet");
 		System.out.println("5. By gender");
-		//--------------------------
+		// --------------------------
 		int value = inputOption.nextInt();
 		switch (value) {
 		case 1:
@@ -321,33 +324,33 @@ public class Menu {
 		System.out.println("Select the club");
 		logic.sortClubByCriteria("id");
 		int idClub = inputOption.nextInt();
-		//--------------------------
+		// --------------------------
 		System.out.println("1. By number of pets (Comparable)");
 		System.out.println("2. By id owner");
 		System.out.println("3. By firstname owner");
 		System.out.println("4. By lastname owner");
 		System.out.println("5. By types of pets prefer owner");
 		System.out.println("6. By birthday");
-		//--------------------------
+		// --------------------------
 		int value = inputOption.nextInt();
 		switch (value) {
 		case 1:
 			logic.sortOwnersByPetsNumber(idClub);
 			break;
 		case 2:
-			logic.sortOwnersOfClubByCriteria(idClub,"id");
+			logic.sortOwnersOfClubByCriteria(idClub, "id");
 			break;
 		case 3:
-			logic.sortOwnersOfClubByCriteria(idClub,"firstName");
+			logic.sortOwnersOfClubByCriteria(idClub, "firstName");
 			break;
 		case 4:
-			logic.sortOwnersOfClubByCriteria(idClub,"lastName");
+			logic.sortOwnersOfClubByCriteria(idClub, "lastName");
 			break;
 		case 5:
-			logic.sortOwnersOfClubByCriteria(idClub,"typePetsPrefer");
+			logic.sortOwnersOfClubByCriteria(idClub, "typePetsPrefer");
 			break;
 		case 6:
-			logic.sortOwnersOfClubByCriteria(idClub,"birthday");
+			logic.sortOwnersOfClubByCriteria(idClub, "birthday");
 			break;
 		default:
 			logic.sortClubsByOwnersNumber();
@@ -445,6 +448,26 @@ public class Menu {
 			System.out.println("Enter the id of the club to delete");
 			int id = inputOption.nextInt();
 			logic.deleteClub(id);
+		}
+
+	}
+
+	private void searchClub() {
+		System.out.println("Search club:");
+		System.out.println("1. By name club");
+		System.out.println("2. By id club");
+		int value = inputOption.nextInt();
+		if (value == 1) {
+			System.out.println("Enter the name of the club to find");
+			String name = inputOption.next();
+			logic.normalSearchClub(name);
+			logic.binarySearchClub(name);
+		} else if (value == 2) {
+			System.out.println("Enter the id of the club to find");
+			int id = inputOption.nextInt();
+			
+			logic.normalSearchClub(id);
+			logic.binarySearchClub(id);
 		}
 
 	}
