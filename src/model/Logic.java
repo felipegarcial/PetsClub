@@ -422,14 +422,14 @@ public class Logic {
 
 		case "insertion":
 		        for (int i = 1; i < listClubs.size(); ++i) { 
-		            int key = listClubs.get(i).getId(); 
-		            int j = i - 1; 
-		            
-		            while (j >= 0 && listClubs.get(j).getId() > key) { 
-		                listClubs.set(j + 1, listClubs.get(j));
+		        	Club club = listClubs.get(i);
+		        	int j = i - 1; 
+		        	
+		            while (j >= 0 && listClubs.get(j).getId() > club.getId()) { 
+		                listClubs.set(j+1, listClubs.get(j));
 		                j--; 
 		            } 
-		            listClubs.set(j + 1, listClubs.get(key));
+		            listClubs.set(j+1 , club);
 		        } 
 			break;
 		}
@@ -530,7 +530,6 @@ public class Logic {
 			Date birthday = pet.getBirthday();
 			String type = pet.getType();
 			String gender = pet.getGender();
-
 			System.out.println(id + " " + name + " " + birthday + " " + type + " " + gender);
 		}
 	}

@@ -390,7 +390,7 @@ public class Menu {
 			logic.sortClubsByTraditionalsMethods("selection");
 			break;
 		case 8:
-			logic.sortClubsByTraditionalsMethods("sort");
+			logic.sortClubsByTraditionalsMethods("insertion");
 			break;
 		default:
 			logic.sortClubsByOwnersNumber();
